@@ -109,7 +109,7 @@ VertexLitGeneric
   // As XYZ fresnel vectors, you can use any float values
   // i.e: $phongfresnelranges " [ X Y Z ] "
   // NOTE: bellow Phong Fresnel Ranges take effect only at HLMV since will be later modulated by Proxies
-  $phongfresnelranges " [ .12 .5 .99 ] "    // my recommended values
+  $phongfresnelranges " [ .3 .65 1.1 ] "    // my recommended values
   //$phongfresnelranges " [ .12 .5 1 ] "    // my recommended values warped at Valve's default range
   //$phongfresnelranges " [ 1 .1 .1 ] "     // the most used values over the steam workshop
 
