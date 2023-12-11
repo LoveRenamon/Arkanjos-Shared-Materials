@@ -307,10 +307,6 @@ VertexLitGeneric
 
     // NOTE: avoid endless ramp $LightingBoost
     // Allow user disable $color Proxie
-    //Int {
-      //srcVar1 $ColorProxie
-      //resultVar $ColorProxie
-    //}
     LessOrEqual { // disable $LightingBoost if $ColorProxie is disabled
       LessEqualVar $zero
       greaterVar $LightingBoost
@@ -463,10 +459,6 @@ VertexLitGeneric
 
     // Allow user disable $EmissiveProxie Proxie
     // if $EmissiveProxie > 0 then $emissiveblendstrength == $emissiveblendstrength else $emissiveblendstrength == $EmissiveStrengthCached
-    //Int {
-      //srcVar1 $EmissiveProxie
-      //resultVar $EmissiveProxie
-    //}
     LessOrEqual {
       LessEqualVar $EmissiveStrengthCached
       greaterVar $emissiveblendstrength
@@ -583,10 +575,6 @@ VertexLitGeneric
 
     // NOTE: Now we can write $Modulator to $color
     // Allow user disable $color Proxie
-    //Int {
-      //srcVar1 $ColorProxie
-      //resultVar $ColorProxie
-    //}
     LessOrEqual { 
       LessEqualVar $one
       greaterVar $clr
@@ -691,10 +679,6 @@ VertexLitGeneric
     }
 
     // Allow user disable EnvMap Proxie
-    //Int {
-      //srcVar1 $EnvMapProxie
-      //resultVar $EnvMapProxie
-    //}
     LessOrEqual { 
       LessEqualVar $one
       greaterVar $EnvMapModulator
@@ -731,10 +715,6 @@ VertexLitGeneric
     }
 
     // Allow user disable PhongProxie / BBQ (wet)
-    //Int {
-      //srcVar1 $PhongProxie
-      //resultVar $PhongProxie
-    //}
     LessOrEqual { 
       LessEqualVar $one
       greaterVar $BBQ
@@ -822,10 +802,6 @@ VertexLitGeneric
     }
 
     // Allow user disable $detail Proxie
-    //Int {
-      //srcVar1 $DetailProxie
-      //resultVar $DetailProxie
-    //}
     LessOrEqual { 
       LessEqualVar $DetailFactor
       greaterVar $detailblendfactor
