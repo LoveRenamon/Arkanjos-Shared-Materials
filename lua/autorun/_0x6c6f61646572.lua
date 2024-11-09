@@ -16,7 +16,7 @@ DebiddoPREFIX     = "models/debiddo/"
 --[[
 		Allow edit NPCs base HP that use out CVar
 --]]
-CreateConVar( "sv_debiddo_npc_base_health", 100, FCVAR_GAMEDLL, "Changes the base health for the newler HL2 based NPCs by Debiddo\nUsually Citizens have: <base>*0.8\nCombine NPCs have <base>*1.1\n", "1", "2147483648" )
+CreateConVar( "sv_debiddo_npc_base_health", 100, FCVAR_GAMEDLL, "Changes the base health for the newler HL2 based NPCs by Debiddo\nUsually Citizens have: <base>*0.8\nCombine NPCs have <base>*1.1\n", 1, 2147483648 )
 local sv_debiddo_npc_base_health = GetConVar( "sv_debiddo_npc_base_health" )
 
 --[[
