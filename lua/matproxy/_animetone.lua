@@ -7,6 +7,7 @@ matproxy.Add( {
       -- self.XYZ = Vector()
       -- self.ResultFloat = values.float
       -- self.ResultVar = values.resultvar
+      self.lerpSpeed = tonumber(values.lerp) or 0.006
       self.RGBMin = tonumber(values.min) or 0.8
    end,
 
@@ -15,10 +16,6 @@ matproxy.Add( {
 
       local XYZ = render.GetToneMappingScaleLinear()
       local Tone = render.GetLightColor( ent:GetPos() )
-      -- print("\n\nXYZ is:")
-      -- print(Tone)
-
-      -- local LF = Tone * 0.0625
 
       -- fasteast fixup aproximation for color temperature
       local R = Tone.x * 0.80787
@@ -48,9 +45,15 @@ matproxy.Add( {
          B = B * 2 + Tone.z * 0.5
       end
 
-      local RGB = Vector( R, G, B )
+      lerpR = Lerp( self.lerpSpeed, lerpR or 0, R )
+      lerpG = Lerp( self.lerpSpeed, lerpG or 0, G )
+      lerpB = Lerp( self.lerpSpeed, lerpB or 0, B )
+      local RGB = Vector( LerpR, LerpG, LerpB )
 
-      local Emissive = Vector( (1-R) * 0.25, (1-G) * 0.25, (1-B) * 0.25 )
+      lerpER = Lerp( self.lerpSpeed, lerpER or 0, (1-R) * 0.25 )
+      lerpEG = Lerp( self.lerpSpeed, lerpEG or 0, (1-G) * 0.25 )
+      lerpEB = Lerp( self.lerpSpeed, lerpEB or 0, (1-B) * 0.25 )
+      local Emissive = Vector( LerpER, LerpEG, LerpEB )
       local RGBMin = self.RGBMin
 
       -- FIXME: find better method to clamp RGBMin
@@ -59,11 +62,10 @@ matproxy.Add( {
       local G = ( G + RGBMin + tmp ) * 0.5 --3
       local B = ( B + RGBMin + tmp ) * 0.5 --3
 
-      -- Should I hardcode Clamp?
-      -- local R = math.Clamp( Color.x, RGBmin, 1.8 )
-      -- local G = math.Clamp( Color.y, RGBmin, 1.8 )
-      -- local B = math.Clamp( Color.z, RGBmin, 1.8 )
-      local Color2 = Vector( R, G, B )
+      lerpR = Lerp( self.lerpSpeed, lerpCR or 0, R )
+      lerpG = Lerp( self.lerpSpeed, lerpCG or 0, G )
+      lerpB = Lerp( self.lerpSpeed, lerpCB or 0, B )
+      local Color2 = Vector( lerpCR, lerpCG, lerpCB )
 
       -- print("RGB is:", RGB)
       -- print("\n$color2 is:", Color2)
