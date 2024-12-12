@@ -7,6 +7,7 @@ matproxy.Add( {
       -- self.XYZ = Vector()
       -- self.ResultFloat = values.float
       -- self.ResultVar = values.resultvar
+      self.RGBMin = tonumber(values.min) or 0.8
    end,
 
    bind = function( self, mat, ent )
@@ -23,42 +24,40 @@ matproxy.Add( {
       local R = Tone.x * 0.80787
       local G = Tone.y * 0.80775
       local B = Tone.z * 0.80784
+      local RGB = (R + G + B) * 0.333
       -- sorta of gamma correction inspired on Gamut but we'll use only red (hot) color
-      if R <= 0.125490196 then
-         -- print("RGB <= 32 || Case A too dark great boost")
-         local R = R * 32 + Tone.x
-         local G = G * 32 + Tone.y
-         local B = B * 32 + Tone.z
-      elseif R <= 0.250980392 then
-         -- print("RGB <= 64 || || Case B still dark boost")
-         local R = R * 16 + Tone.x
-         local G = G * 16 + Tone.y
-         local B = B * 16 + Tone.z
-      elseif R >= 0.34 then
+      if RGB <= 0.125490196 then
+         -- print("RGB <= 32 || Case A too dark great, boost")
+         R = R * 32 + Tone.x
+         G = G * 32 + Tone.y
+         B = B * 32 + Tone.z
+      elseif RGB <= 0.250980392 then
+         -- print("RGB <= 64 || || Case B still dark, boost")
+         R = R * 16 + Tone.x
+         G = G * 16 + Tone.y
+         B = B * 16 + Tone.z
+      elseif RGB >= 0.34 then
          -- print("RGB >= 102 || Case C too much energy, decrease again")
-         local R = R * 0.799
-         local G = G * 0.801
-         local B = B * 0.805
-      elseif R >= 0.250980392 then
+         R = R * 0.799
+         G = G * 0.801
+         B = B * 0.805
+      elseif RGB >= 0.250980392 then
          -- print("RGB >= 64 || Case D looks almost good, boost")
-         local R = R * 2 + Tone.x * 0.5
-         local G = G * 2 + Tone.y * 0.5
-         local B = B * 2 + Tone.z * 0.5
+         R = R * 2 + Tone.x * 0.5
+         G = G * 2 + Tone.y * 0.5
+         B = B * 2 + Tone.z * 0.5
       end
 
       local RGB = Vector( R, G, B )
 
-      local Color = Vector( 1-R, 1-G, 1-B )
-      local RGBMin = 0.8
+      local Emissive = Vector( (1-R) * 0.25, (1-G) * 0.25, (1-B) * 0.25 )
+      local RGBMin = self.RGBMin
 
       -- FIXME: find better method to clamp RGBMin
       local tmp = XYZ.x --math.pow( Tone.x, 4 )
-      local R = R + RGBMin + tmp
-      local R = R / 2 --3
-      local G = G + RGBMin + tmp
-      local G = G / 2 --3
-      local B = B + RGBMin + tmp
-      local B = B / 2 --3
+      local R = ( R + RGBMin + tmp ) * 0.5 --3
+      local G = ( G + RGBMin + tmp ) * 0.5 --3
+      local B = ( B + RGBMin + tmp ) * 0.5 --3
 
       -- Should I hardcode Clamp?
       -- local R = math.Clamp( Color.x, RGBmin, 1.8 )
@@ -66,14 +65,9 @@ matproxy.Add( {
       -- local B = math.Clamp( Color.z, RGBmin, 1.8 )
       local Color2 = Vector( R, G, B )
 
-      local Emissive = Vector( Color.x * 0.25, Color.y * 0.25, Color.z * 0.25 )
-
-      -- print("RGB is:")
-      -- print(RGB)
-      -- print("\n$color2 is:")
-      -- print(Color2)
-      -- print("\n$AnimeEmissive is:")
-      -- print(Emissive)
+      -- print("RGB is:", RGB)
+      -- print("\n$color2 is:", Color2)
+      -- print("\n$AnimeEmissive is:", Emissive)
       -- print(math.Round(R*255), math.Round(G*255), math.Round(B*255))
 
       mat:SetVector( "$color2", Color2 )
