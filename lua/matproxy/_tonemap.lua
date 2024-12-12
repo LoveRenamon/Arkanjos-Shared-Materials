@@ -14,8 +14,8 @@ matproxy.Add( {
 
    init = function( self, mat, values )
       self.ResultXYZ = values.resultvar
-      self.Scalar = values.scale or 1
-      self.lerpSpeed = values.lerp or .003
+      self.Scalar = tonumber(values.scale) or 1
+      self.lerpSpeed = tonumber(values.lerp) or .003
       self.Raw = tobool(values.raw) or false
    end,
 
